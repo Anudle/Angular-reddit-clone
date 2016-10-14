@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app='RedditApp'>
+  <head>
+    <meta charset="utf-8">
+    <title>Reddit Clone</title>
+  </head>
+  <body>
+    <h1>Reddit Clone</h1>
+    <br>
+    <br>
+    <div ng-controller='redditController'>
+      <form ng-submit="submitPost()" name="Post">
+  Title:<input name="title" type="text" ng-model="newPost.title">
+  Author:<input name="author" type="text" ng-model="newPost.author">
+  Image:<input name="image" type="text" ng-model="newPost.image">
+  Description:<input name="description" type="text" ng-model="newPost.description">
+      <input type="submit">
+</form>
+
+<h1 ng-repeat="po in post"> Title:{{po.title}}
+  <br>
+Author: {{po.author}}
+<br>
+Description: {{po.description}}
+<br>
+<img ng-src={{po.image}} alt='post image'></h1>
+    </div>
+      <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js'></script>
+    <script src='app.js'></script>
+  </body>
+</html>
