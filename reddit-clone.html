@@ -10,22 +10,42 @@
     <br>
     <div ng-controller='redditController'>
       <form ng-submit="submitPost()" name="Post">
+
   Title:<input name="title" type="text" ng-model="newPost.title">
+
   Author:<input name="author" type="text" ng-model="newPost.author">
-  Image:<input name="image" type="text" ng-model="newPost.image">
+
+  Image URL:<input name="image" type="text" ng-model="newPost.image">
+
   Description:<input name="description" type="text" ng-model="newPost.description">
+
       <input type="submit">
+
 </form>
 
-<h1 ng-repeat="po in post"> Title:{{po.title}}
+<div class='Page'>
+<h4 ng-repeat="p in post"> Title:{{p.title}}
   <br>
-Author: {{po.author}}
+Author: {{p.author}}
 <br>
-Description: {{po.description}}
+Description: {{p.description}}
 <br>
-<img ng-src={{po.image}} alt='post image'></h1>
+<img ng-src={{p.image}} alt='post image'>
+<br>
+Up Boats: {{p.votes}} <button ng-click='upVote(p)'> UP </button>
+<br>
+<button ng-click='downVote(p)'>
+  Down </button>
+<br>
+
+<br>
+Posted: {{p.posted | amCalendar}}</h4>
+</div>
+
     </div>
       <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js'></script>
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js'></script>
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0/angular-moment.js'></script>
     <script src='app.js'></script>
   </body>
 </html>
