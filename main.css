@@ -1,0 +1,10 @@
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
+
+.orange{
+  color: #FF8A5F;
+}
+.blue{
+  color: #9494FF
+}

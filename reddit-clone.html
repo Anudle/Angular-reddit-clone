@@ -3,13 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title>Reddit Clone</title>
+  <link rel="stylesheet" type="text/css" href="main.css">
   </head>
+
   <body>
     <h1>Reddit Clone</h1>
     <br>
     <br>
-    <div ng-controller='redditController'>
-      <form ng-submit="submitPost()" name="Post">
+    <div ng-controller='redditController' ng-cloak >
+
+ <!-- Submit Form -->
+
+ <button ng-click='a()' class='button'> Add Post </button>
+
+  <form ng-show='showForm' ng-submit="submitPost()" name="Post">
 
   Title:<input name="title" type="text" ng-model="newPost.title">
 
@@ -23,8 +30,19 @@
 
 </form>
 
+
+<!-- POSTS -->
+
+<select name="dropDown" ng-model="select">
+      <option disabled selected value>Sort by</option>
+      <option value='title'>Title</option>
+      <option value='votes'>Votes</option>
+      <option value='posted'>Date</option>
+    </select>
+
 <div class='Page'>
-<h4 ng-repeat="p in post"> Title:{{p.title}}
+
+<h4 ng-repeat="p in post | orderBy: select"> Title:{{p.title}}
   <br>
 Author: {{p.author}}
 <br>
@@ -32,8 +50,15 @@ Description: {{p.description}}
 <br>
 <img ng-src={{p.image}} alt='post image'>
 <br>
-Up Boats: {{p.votes}} <button ng-click='upVote(p)'> UP </button>
+
+<div ng-class='{orange: p.votes > 0, blue: p.votes < 0}'>
+Up Boats: {{p.votes}}
+</div>
+
+<button ng-click='upVote(p)'> UP </button>
+
 <br>
+
 <button ng-click='downVote(p)'>
   Down </button>
 <br>
@@ -41,11 +66,14 @@ Up Boats: {{p.votes}} <button ng-click='upVote(p)'> UP </button>
 <br>
 Posted: {{p.posted | amCalendar}}</h4>
 </div>
+  </div>
 
-    </div>
+
+<!-- Scripts -->
       <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js'></script>
       <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js'></script>
       <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0/angular-moment.js'></script>
     <script src='app.js'></script>
+
   </body>
 </html>
