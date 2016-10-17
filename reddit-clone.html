@@ -5,99 +5,148 @@
     <meta charset="utf-8">
     <title>Reddit Clone</title>
     <link rel="stylesheet" type="text/css" href="main.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/readable/bootstrap.min.css" rel="stylesheet" integrity="sha384-Li5uVfY2bSkD3WQyiHX8tJd0aMF91rMrQP5aAewFkHkVSTT2TmD2PehZeMmm7aiL" crossorigin="anonymous">
 </head>
 
-<body>
-    <h1>Reddit Clone</h1>
+<body ng-controller='redditController' ng-cloak>
+
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand">Reddit Clone</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                <ul class="nav navbar-nav">
+                    <button ng-click='toggleAdd()' class="btn btn-primary"> Add Post </button>
+                    <li class="dropdown">
+                        <select name="dropDown" ng-model="select">
+     <option disabled selected value>Sort by</option>
+     <option value='title'>Title</option>
+     <option value='-votes'>Votes</option>
+     <option value='posted'>Date</option>
+   </select>
+                        <form class='navbar-form navbar-left' role='search'>
+                            <div class='form-group'>
+                                <input type="text" placeholder="Search" ng-model="search">
+                                <div>
+                        </form>
+                        </div>
+                        </div>
+    </nav>
+
+
+
+    <h1 id='title'>Reddit Clone</h1>
     <br>
     <br>
-    <div ng-controller='redditController' ng-cloak>
+    <div>
 
         <!-- Submit Form -->
 
-        <button ng-click='toggleAdd()' class='button'> Add Post </button>
 
-        <form novalidate ng-show='showForm' ng-submit="submitPost()" name="Post">
+        <form class="form-horizontal" novalidate ng-show='showForm' ng-submit="submitPost()" name="Post">
+            <fieldset>
 
-            Title:<input name="title" type="text" ng-model="newPost.title" required> Author:
+                <div class="form-group">
+                    <label for="title" class="col-lg-2 control-label">Title: </label>
+                    <div class="col-lg-10">
+                        <input name='title' type="text" class="form-control" ng-model="newPost.title" required>
+                    </div>
+                </div>
 
-            <input name="author" type="text" ng-model="newPost.author" required>
-            Image URL:<input name="image" type="url" ng-model="newPost.image" required> Description:
+                <div class="form-group">
+                    <label for="author" class="col-lg-2 control-label">Author: </label>
+                    <div class="col-lg-10">
+                        <input name='author' type="text" class="form-control" ng-model="newPost.author" required>
+                    </div>
+                </div>
 
-            <input name="description" type="text" ng-model="newPost.description">
-
-            <input type="submit">
-
+                <div class="form-group">
+                    <label for="image" class="col-lg-2 control-label">Image URL: </label>
+                    <div class="col-lg-10">
+                        <input name='image' type="url" class="form-control" ng-model="newPost.image" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description" class="col-lg-2 control-label">Description:</label>
+                    <div class="col-lg-10">
+                        <textarea name='description' ng-model="newPost.description" class="form-control" rows="3" required></textarea>
+                    </div>
+                </div>
+                <input type="submit">
+            </fieldset>
         </form>
 
 
         <!-- POSTS -->
 
-        <select name="dropDown" ng-model="select">
-      <option disabled selected value>Sort by</option>
-      <option value='title'>Title</option>
-      <option value='-votes'>Votes</option>
-      <option value='posted'>Date</option>
-    </select>
-
-        <input type="text" placeholder="Search" ng-model="search">
-
-        <div class='Page'>
-
-            <h4 ng-repeat="p in post | orderBy: select | filter:search"> Title:{{p.title}}
-  <br>
-Author: {{p.author}}
-<br>
-Description: {{p.description}}
-<br>
-<img ng-src={{p.image}} alt='post image'>
-<br>
-
-<div ng-class='{orange: p.votes > 0, blue: p.votes < 0}'>
-Up Boats: {{p.votes}}
-</div>
-
-<button ng-click='upVote(p)'> UP </button>
-
-<br>
-
-<button ng-click='downVote(p)'>
-  Down </button>
 
 
-Posted: {{p.posted | amCalendar}}
-<br>
 
-<button  ng-click='toggleComment(p)'> Show comments </button>
+        <div>
 
-<ng-pluralize count="p.comments.length" when="{'0':  'No comments',
+            <div class='Page' ng-repeat="p in post | orderBy: select | filter:search">
+
+                <div id='title'>
+                    {{p.title}}
+                </div>
+
+                <br>
+                <img id='image' ng-src={{p.image}} alt='post image'>
+                <br>
+
+                <div id='text'>
+                    By {{p.author}}
+                    <br>
+                    <br> Posted {{p.posted | amCalendar}}
+                    <br>
+                    <br> Description: {{p.description}}
+
+                </div>
+
+                <div class='votes' ng-class='{orange: p.votes > 0, blue: p.votes < 0}'>
+                    Up Boats: {{p.votes}}
+                </div>
+
+                <div class=votesBtn>
+                    <button class="btn btn-warning" ng-click='upVote(p)'> UP </button>
+                    <br>
+                    <button class="btn btn-info" ng-click='downVote(p)'> Down </button>
+                </div>
+
+                <ng-pluralize class='commentNumber' count="p.comments.length" when="{'0':  'No comments',
  								'1': '1 comment',
  								'other': '{{p.comments.length}} comments'}">
                 </ng-pluralize>
                 </span>
 
-<div ng-repeat="c in p.comments" ng-show='showComment'>
-- {{c.author}} wrote {{c.comment}}
-</div>
+                <div class='comments'>
+                    <button class="btn btn-primary" ng-click='toggleComment(p)'> Show comments </button>
 
-<button ng-click='toggleAddComment()'> Add Comment </button>
 
-<div ng-show='addComment'>
- 							<form name="newComment" ng-submit="p.comments.push(newComment); newComment = {}; comments = true; newcomment = false;" novalidate>
- 								<label for="name">
+                    <button class="btn btn-primary" ng-click='toggleAddComment()'> Add Comment </button>
+                </div>
+                <div id='commentText' ng-repeat="c in p.comments" ng-show='showComment'>
+                    - {{c.author}} wrote: {{c.comment}}
+                </div>
+
+                <div id='addComment' ng-show='addComment'>
+                    <form name="newComment" ng-submit="p.comments.push(newComment); newComment = {}; comments = true; newcomment = false;" novalidate>
+                        <label for="name">
  									Name:
  								</label>
- 								<input id="name" type="text" ng-model="newComment.author" ng-minlength="3" required>
- 								<label for="comment">
+                        <input id="name" type="text" ng-model="newComment.author" ng-minlength="3" required>
+                        <label for="comment">
  									Comment:
  								</label>
- 								<input id="comment" type="text" ng-model="newComment.comment" ng-maxlength="140" required>
- 								<button ng-disabled="newComment.$invalid">Submit</button>
- 							</form>
- 						</div>
+                        <input id="comment" type="text" ng-model="newComment.comment" ng-maxlength="140" required>
+                        <button ng-disabled="newComment.$invalid">Submit</button>
+                    </form>
+                </div>
 
 
-</h4>
+            </div>
 
         </div>
     </div>
