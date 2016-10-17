@@ -1,48 +1,50 @@
 <!DOCTYPE html>
 <html ng-app='RedditApp'>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>Reddit Clone</title>
-  <link rel="stylesheet" type="text/css" href="main.css">
-  </head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
 
-  <body>
+<body>
     <h1>Reddit Clone</h1>
     <br>
     <br>
-    <div ng-controller='redditController' ng-cloak >
+    <div ng-controller='redditController' ng-cloak>
 
- <!-- Submit Form -->
+        <!-- Submit Form -->
 
- <button ng-click='a()' class='button'> Add Post </button>
+        <button ng-click='toggleAdd()' class='button'> Add Post </button>
 
-  <form ng-show='showForm' ng-submit="submitPost()" name="Post">
+        <form novalidate ng-show='showForm' ng-submit="submitPost()" name="Post">
 
-  Title:<input name="title" type="text" ng-model="newPost.title">
+            Title:<input name="title" type="text" ng-model="newPost.title" required> Author:
 
-  Author:<input name="author" type="text" ng-model="newPost.author">
+            <input name="author" type="text" ng-model="newPost.author" required>
+            Image URL:<input name="image" type="url" ng-model="newPost.image" required> Description:
 
-  Image URL:<input name="image" type="text" ng-model="newPost.image">
+            <input name="description" type="text" ng-model="newPost.description">
 
-  Description:<input name="description" type="text" ng-model="newPost.description">
+            <input type="submit">
 
-      <input type="submit">
-
-</form>
+        </form>
 
 
-<!-- POSTS -->
+        <!-- POSTS -->
 
-<select name="dropDown" ng-model="select">
+        <select name="dropDown" ng-model="select">
       <option disabled selected value>Sort by</option>
       <option value='title'>Title</option>
-      <option value='votes'>Votes</option>
+      <option value='-votes'>Votes</option>
       <option value='posted'>Date</option>
     </select>
 
-<div class='Page'>
+        <input type="text" placeholder="Search" ng-model="search">
 
-<h4 ng-repeat="p in post | orderBy: select"> Title:{{p.title}}
+        <div class='Page'>
+
+            <h4 ng-repeat="p in post | orderBy: select | filter:search"> Title:{{p.title}}
   <br>
 Author: {{p.author}}
 <br>
@@ -61,19 +63,52 @@ Up Boats: {{p.votes}}
 
 <button ng-click='downVote(p)'>
   Down </button>
+
+
+Posted: {{p.posted | amCalendar}}
 <br>
 
-<br>
-Posted: {{p.posted | amCalendar}}</h4>
+<button  ng-click='toggleComment(p)'> Show comments </button>
+
+<ng-pluralize count="p.comments.length" when="{'0':  'No comments',
+ 								'1': '1 comment',
+ 								'other': '{{p.comments.length}} comments'}">
+                </ng-pluralize>
+                </span>
+
+<div ng-repeat="c in p.comments" ng-show='showComment'>
+- {{c.author}} wrote {{c.comment}}
 </div>
-  </div>
+
+<button ng-click='toggleAddComment()'> Add Comment </button>
+
+<div ng-show='addComment'>
+ 							<form name="newComment" ng-submit="p.comments.push(newComment); newComment = {}; comments = true; newcomment = false;" novalidate>
+ 								<label for="name">
+ 									Name:
+ 								</label>
+ 								<input id="name" type="text" ng-model="newComment.author" ng-minlength="3" required>
+ 								<label for="comment">
+ 									Comment:
+ 								</label>
+ 								<input id="comment" type="text" ng-model="newComment.comment" ng-maxlength="140" required>
+ 								<button ng-disabled="newComment.$invalid">Submit</button>
+ 							</form>
+ 						</div>
 
 
-<!-- Scripts -->
-      <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js'></script>
-      <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js'></script>
-      <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0/angular-moment.js'></script>
+</h4>
+
+        </div>
+    </div>
+
+
+    <!-- Scripts -->
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0/angular-moment.js'></script>
     <script src='app.js'></script>
 
-  </body>
+</body>
+
 </html>
