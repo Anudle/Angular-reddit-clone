@@ -10,23 +10,6 @@
     color: #9494FF
 }
 
-#title {
-    margin-top: 10vh;
-    text-align: center;
-    font-size: 30px;
-}
-
-#text {
-    text-align: center;
-    font-size: 18px;
-}
-
-#image {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 .votes {
     text-align: center;
 }
@@ -39,23 +22,44 @@
 .Page {
     border: black;
 }
-
+.showCom{
+  margin-right: 5px;
+}
 .comments {
-    float: right;
+    display: flex;
+    justify-content: center;
     margin-top: 5vh;
     margin-bottom: 5vh;
 }
 
 
-/*#commentText{
-  float: left;
-}*/
-
-#addComment {
-    float: left;
+.image{
+display: block;
+margin-right: auto;
+margin-left: auto;
+max-width: 350px;
+max-height: 350px;
 }
+
 
 .commentNumber {
     display: flex;
     justify-content: center;
+}
+
+#title {
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+}
+
+#text {
+    text-align: center;
+    font-size: 18px;
+}
+
+#addComment {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

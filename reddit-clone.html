@@ -78,13 +78,7 @@
             </fieldset>
         </form>
 
-
-        <!-- POSTS -->
-
-
-
-
-        <div>
+          <!-- POSTS -->
 
             <div class='Page' ng-repeat="p in post | orderBy: select | filter:search">
 
@@ -93,7 +87,7 @@
                 </div>
 
                 <br>
-                <img id='image' ng-src={{p.image}} alt='post image'>
+                <img class='image' ng-src={{p.image}} alt='post image'>
                 <br>
 
                 <div id='text'>
@@ -119,34 +113,30 @@
  								'1': '1 comment',
  								'other': '{{p.comments.length}} comments'}">
                 </ng-pluralize>
-                </span>
-
-                <div class='comments'>
-                    <button class="btn btn-primary" ng-click='toggleComment(p)'> Show comments </button>
 
 
-                    <button class="btn btn-primary" ng-click='toggleAddComment()'> Add Comment </button>
-                </div>
-                <div id='commentText' ng-repeat="c in p.comments" ng-show='showComment'>
-                    - {{c.author}} wrote: {{c.comment}}
-                </div>
+ <!-- Show Comment  -->
+            <div class='comments'>
+                    <button class="btn btn-primary showCom" ng-click='toggleComment(p)'> Show comments </button>
 
-                <div id='addComment' ng-show='addComment'>
-                    <form name="newComment" ng-submit="p.comments.push(newComment); newComment = {}; comments = true; newcomment = false;" novalidate>
-                        <label for="name">
- 									Name:
- 								</label>
-                        <input id="name" type="text" ng-model="newComment.author" ng-minlength="3" required>
-                        <label for="comment">
- 									Comment:
- 								</label>
-                        <input id="comment" type="text" ng-model="newComment.comment" ng-maxlength="140" required>
-                        <button ng-disabled="newComment.$invalid">Submit</button>
-                    </form>
-                </div>
-
-
+                    <button class="btn btn-primary" ng-click='toggleAddComment(p)'> Add Comment </button>
             </div>
+
+<!-- Add Comment -->
+
+            <div id='commentText' ng-repeat="c in p.comments" ng-show='p.showComment'>
+              - {{c.author}} wrote: {{c.comment}}
+            </div>
+
+            <form ng-show='p.addComment' ng-submit='postComment(p)' name='commentform'>
+              <label for='author'>Author</label>
+              <input name='author' type='text' ng-model='p.comments.author'>
+              <label for='comment'>Comment</label>
+              <input name='comment' type='text' ng-model='p.comments.comment'>
+              <button type='submit'>Submit</button>
+            </form>
+
+
 
         </div>
     </div>
@@ -154,6 +144,7 @@
 
     <!-- Scripts -->
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js'></script>
+     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0/angular-moment.js'></script>
     <script src='app.js'></script>

@@ -1,6 +1,4 @@
-var app = angular.module('RedditApp', ['angularMoment']).controller('redditController', function($scope, moment) {
-
-
+var app = angular.module('RedditApp', ['angularMoment', ngAnimate]).controller('redditController', function($scope, moment) {
     $scope.post = [{
             title: 'You guys asked: me standing in my mail order bride costume',
             author: 'Manda-lee23',
@@ -43,26 +41,33 @@ var app = angular.module('RedditApp', ['angularMoment']).controller('redditContr
                 author: 'Danny',
                 comment: "That or THERE IS A GIANT BIRD AT YOUR FRONT DOOR"
             }]
-        }, ],
+        } ],
 
-        $scope.newPost = {},
+    $scope.newPost = {}
+    $scope.showForm = false
+    $scope.showComment = false
+    $scope.addComment = false
 
-        $scope.showForm = false,
-        $scope.showComment = false,
-        $scope.addComment = false,
-
-        $scope.toggleComment = function() {
-            $scope.showComment = !$scope.showComment
-        }
-
-    $scope.toggleAddComment = function() {
-        $scope.addComment = !$scope.addComment
+    $scope.toggleComment = function(p) {
+      p.showComment = !p.showComment
+      }
+    $scope.toggleAddComment = function(p) {
+        p.addComment = !p.addComment
+        console.log(p)
     }
-
     $scope.toggleAdd = function() {
-        $scope.showForm = !$scope.showForm
-    }
+      $scope.showForm = !$scope.showForm
+  }
 
+  // submit comment
+    $scope.postComment = function(p) {
+             p.comments.push({
+                 author: p.comments.author,
+                 comment: p.comments.comment
+             })
+             p.addComment = false
+         }
+// submit post
     $scope.submitPost = function() {
             $scope.post.push({
                 title: $scope.newPost.title,
@@ -79,15 +84,12 @@ var app = angular.module('RedditApp', ['angularMoment']).controller('redditContr
             $scope.newPost.description = '';
             $scope.newPost.comments = '';
             $scope.toggleAdd();
-        },
-
-
-
+        }
+// votes
         $scope.upVote = function(p) {
             p.votes += 1;
-        },
+        }
         $scope.downVote = function(p) {
             p.votes -= 1;
         }
-
 })
