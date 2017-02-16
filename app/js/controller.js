@@ -1,4 +1,4 @@
-var app = angular.module('RedditApp', ['angularMoment', ngAnimate]).controller('redditController', function($scope, moment) {
+app.controller('redditController', function($scope, moment) {
     $scope.post = [{
             title: 'You guys asked: me standing in my mail order bride costume',
             author: 'Manda-lee23',
